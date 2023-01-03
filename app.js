@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/count', (req, res) => {
-	connection.query('SELECT COUNT(*) AS count FROM weather;', (error, results) => {
+	connection.query(`SELECT COUNT(*) AS count FROM weather;`, (error, results) => {
 		if (error) {
 			res.status(500).send(error)
 		} else {
@@ -61,7 +61,13 @@ app.get('/weather/:param/:time', (req, res) => {
 	const [lowerLat, upperLat] = [coords[0][0], coords[1][0]]
 	const [lowerLng, upperLng] = [coords[0][1], coords[1][1]]
 	connection.query(`
-	SELECT latitude, longitude, ${param} FROM weather WHERE latitude > ${lowerLat} AND latitude < ${upperLat} AND longitude > ${lowerLng} AND longitude < ${upperLng} AND time_start = ${time};
+		SELECT latitude, longitude, ${param}
+			FROM weather 
+		WHERE latitude > ${lowerLat} AND 
+			latitude < ${upperLat} AND 
+			longitude > ${lowerLng} AND 
+			longitude < ${upperLng} AND 
+			time_start = ${time};
 	`, (error, results) => {
 		if (error) {
 			res.status(500).send(error)
@@ -71,8 +77,6 @@ app.get('/weather/:param/:time', (req, res) => {
 	})
 })
 
-//1641308400
-
-app.listen(3000, () => {
-	console.log('Listening on port 3000')
+app.listen(8080, () => {
+	console.log('Listening on port 8080')
 })
