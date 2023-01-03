@@ -2,6 +2,9 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const mysql = require('mysql')
+const bodyParser = require('body-parser')
+
+app.use(bodyParser.json())
 
 const connection = mysql.createConnection({
 	host: process.env.HOST,
@@ -50,6 +53,25 @@ app.get('/times', (req, res) => {
 		}
 	})
 })
+
+app.get('/weather/:param/:time', (req, res) => {
+	const param = req.params.param
+	const time = req.params.time
+	const coords = req.body.coords // bounding coords are SW and NE
+	const [lowerLat, upperLat] = [coords[0][0], coords[1][0]]
+	const [lowerLng, upperLng] = [coords[0][1], coords[1][1]]
+	connection.query(`
+	SELECT latitude, longitude, ${param} FROM weather WHERE latitude > ${lowerLat} AND latitude < ${upperLat} AND longitude > ${lowerLng} AND longitude < ${upperLng} AND time_start = ${time};
+	`, (error, results) => {
+		if (error) {
+			res.status(500).send(error)
+		} else {
+			res.send(results)
+		}
+	})
+})
+
+//1641308400
 
 app.listen(3000, () => {
 	console.log('Listening on port 3000')
