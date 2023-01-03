@@ -41,6 +41,16 @@ app.get('/size', (req, res) => {
 	})
 })
 
+app.get('/times', (req, res) => {
+	connection.query(`SELECT UNIQUE time_start FROM weather ORDER BY time_start;`, (error, results) => {
+		if (error) {
+			res.status(500).send(error)
+		} else {
+			res.send(results)
+		}
+	})
+})
+
 app.listen(3000, () => {
 	console.log('Listening on port 3000')
 })
