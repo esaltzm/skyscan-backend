@@ -3,9 +3,11 @@ const express = require('express')
 const app = express()
 const mysql = require('mysql')
 const bodyParser = require('body-parser')
-const Chart = require('chart.js');
+const cors = require('cors')
+
 
 app.use(bodyParser.json())
+app.use(cors())
 
 const connection = mysql.createConnection({
 	host: process.env.HOST,
