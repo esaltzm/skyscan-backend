@@ -61,6 +61,7 @@ app.get('/weather/:param/:time', (req, res) => {
 	const param = req.params.param
 	const time = req.params.time
 	const coords = req.body.coords // bounding coords are SW and NE
+	console.log(`req: ${req}\nbody: ${req.body}\nparam: ${param}\ntime: ${time}\ncoords: ${req.body.coords}`)
 	const [lowerLat, upperLat] = [coords[0][0], coords[1][0]]
 	const [lowerLng, upperLng] = [coords[0][1], coords[1][1]]
 	connection.query(`
