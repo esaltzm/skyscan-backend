@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 const mysql = require('mysql')
 const bodyParser = require('body-parser')
+const Chart = require('chart.js');
 
 app.use(bodyParser.json())
 
@@ -72,7 +73,11 @@ app.get('/weather/:param/:time', (req, res) => {
 		if (error) {
 			res.status(500).send(error)
 		} else {
-			res.send(results)
+			const dataRaw = results
+			const values = dataRaw.values()
+			const data = [...values].map(val => [val.latitude, val.longitude, val[param]])
+			console.log('TESTING', JSON.stringify(data).slice(0, 300))
+			res.send(JSON.stringify(data))
 		}
 	})
 })
