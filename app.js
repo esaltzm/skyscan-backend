@@ -75,10 +75,32 @@ app.get('/weather/:param/:time/:coords', (req, res) => {
 		if (error) {
 			res.status(500).send(error)
 		} else {
-			const dataRaw = results
-			const values = dataRaw.values()
-			const data = [...values].map(val => [val.latitude, val.longitude, val[param]])
-			res.send(JSON.stringify(data))
+			// const dataRaw = results
+			// const values = dataRaw.values()
+			// const data = [...values].map(val => [val.latitude, val.longitude, val[param]])
+			// res.send(JSON.stringify(data))
+			res.send(results)
+		}
+	})
+})
+
+// route for PhotoCast app - get weather at specific location and time
+app.get('/photocast/:time/:lat/:long', (req, res) => {
+	console.log('recieved photocast query')
+	connection.query(`
+	SELECT * FROM weather
+		WHERE time_start >= (${req.params.time} - 5400)
+		AND time_start <= (${req.params.time} + 5400)
+	LIMIT 1;
+	`, (error, results) => {
+		if (error) {
+			res.status(500).send(error)
+		} else {
+			// const dataRaw = results
+			// const values = dataRaw.values()
+			// const data = [...values].map(val => [val.latitude, val.longitude, val[param]])
+			// res.send(JSON.stringify(data))
+			res.send(results)
 		}
 	})
 })
