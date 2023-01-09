@@ -75,10 +75,10 @@ app.get('/weather/:param/:time/:coords', (req, res) => {
 		if (error) {
 			res.status(500).send(error)
 		} else {
-			// const dataRaw = results
-			// const values = dataRaw.values()
-			// const data = [...values].map(val => [val.latitude, val.longitude, val[param]])
-			// res.send(JSON.stringify(data))
+			const dataRaw = results
+			const values = dataRaw.values()
+			const data = [...values].map(val => [val.latitude, val.longitude, val[param]])
+			res.send(JSON.stringify(data))
 			res.send(results)
 		}
 	})
@@ -100,10 +100,6 @@ app.get('/photocast/:time/:lat/:long', (req, res) => {
 		if (error) {
 			res.status(500).send(error)
 		} else {
-			// const dataRaw = results
-			// const values = dataRaw.values()
-			// const data = [...values].map(val => [val.latitude, val.longitude, val[param]])
-			// res.send(JSON.stringify(data))
 			res.send(results)
 		}
 	})
