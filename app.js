@@ -79,7 +79,6 @@ app.get('/weather/:param/:time/:coords', (req, res) => {
 			const values = dataRaw.values()
 			const data = [...values].map(val => [val.latitude, val.longitude, val[param]])
 			res.send(JSON.stringify(data))
-			res.send(results)
 		}
 	})
 })
