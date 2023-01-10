@@ -93,8 +93,7 @@ app.get('/photocast/:time/:lat/:long', (req, res) => {
 		AND latitude >= (${lat} - 0.1)
 		AND latitude <= (${lat} + 0.1)
 		AND longitude >= (${long} - 0.1)
-		AND longitude <= (${long} + 0.1)
-	LIMIT 5;
+		AND longitude <= (${long} + 0.1);
 	`, (error, results) => {
 		if (error) {
 			res.status(500).send(error)
