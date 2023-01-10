@@ -105,7 +105,7 @@ app.get('/photocast/:time/:lat/:long', (req, res) => {
 						c(coord1[0] * p) * c(coord2[0] * p) * 
 						(1 - c((coord2[1] - coord1[1]) * p))/2
 				return Math.asin(Math.sqrt(a))
-			} // credit to https://stackoverflow.com/a/21623206
+			}
 			const sortedByDistance = results.sort((coord1, coord2) => {
 				const distance1 = haversineDistance(coord1, [lat, long]);
 				const distance2 = haversineDistance(coord2, [lat, long]);
