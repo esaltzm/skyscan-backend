@@ -90,10 +90,10 @@ app.get('/photocast/:time/:lat/:long', (req, res) => {
 	SELECT * FROM weather
 		WHERE time_start >= (${req.params.time} - 5400)
 		AND time_start <= (${req.params.time} + 5400)
-		AND latitude >= (${req.params.lat} - 0.06)
-		AND latitude <= (${req.params.lat} + 0.06)
-		AND longitude >= (${req.params.long} - 0.06)
-		AND longitude <= (${req.params.long} + 0.06)
+		AND latitude >= (${req.params.lat} - 0.07)
+		AND latitude <= (${req.params.lat} + 0.07)
+		AND longitude >= (${req.params.long} - 0.07)
+		AND longitude <= (${req.params.long} + 0.07)
 	LIMIT 1;
 	`, (error, results) => {
 		if (error) {
