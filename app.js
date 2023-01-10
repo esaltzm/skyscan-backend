@@ -85,21 +85,34 @@ app.get('/weather/:param/:time/:coords', (req, res) => {
 
 // route for PhotoCast app - get weather at specific location and time
 app.get('/photocast/:time/:lat/:long', (req, res) => {
-	console.log('recieved photocast query')
+	const [lat, long] = [req.params.lat, req.params.long]
 	connection.query(`
 	SELECT * FROM weather
 		WHERE time_start >= (${req.params.time} - 5400)
 		AND time_start <= (${req.params.time} + 5400)
-		AND latitude >= (${req.params.lat} - 0.07)
-		AND latitude <= (${req.params.lat} + 0.07)
-		AND longitude >= (${req.params.long} - 0.07)
-		AND longitude <= (${req.params.long} + 0.07)
-	LIMIT 1;
+		AND latitude >= (${lat} - 0.1)
+		AND latitude <= (${lat} + 0.1)
+		AND longitude >= (${long} - 0.1)
+		AND longitude <= (${long} + 0.1)
+	LIMIT 5;
 	`, (error, results) => {
 		if (error) {
 			res.status(500).send(error)
 		} else {
-			res.send(results)
+			const haversineDistance = (coord1, coord2) => {
+				var p = 0.017453292519943295
+				var c = Math.cos
+				var a = 0.5 - c((coord2[0] - coord1[0]) * p)/2 + 
+						c(coord1[0] * p) * c(coord2[0] * p) * 
+						(1 - c((coord2[1] - coord1[1]) * p))/2
+				return Math.asin(Math.sqrt(a))
+			} // credit to https://stackoverflow.com/a/21623206
+			const sortedByDistance = results.sort((coord1, coord2) => {
+				const distance1 = haversineDistance(coord1, [lat, long]);
+				const distance2 = haversineDistance(coord2, [lat, long]);
+				return distance1 - distance2;
+			})
+			res.send(sortedByDistance[0])
 		}
 	})
 })
