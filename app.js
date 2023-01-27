@@ -57,6 +57,16 @@ app.get('/times', (req, res) => {
 	})
 })
 
+app.get('/latest', (req, res) => {
+	connection.query(`SELECT UNIQUE time_start FROM weather ORDER BY time_start DESC LIMIT 1;`, (error, results) => {
+		if (error) {
+			res.status(500).send(error)
+		} else {
+			res.send(results)
+		}
+	})
+})
+
 app.get('/weather/:param/:time/:coords', (req, res) => {
 	const param = req.params.param
 	const time = req.params.time
@@ -101,9 +111,9 @@ app.get('/photocast/:time/:lat/:long', (req, res) => {
 			const haversineDistance = (coord1, coord2) => {
 				var p = 0.017453292519943295
 				var c = Math.cos
-				var a = 0.5 - c((coord2[0] - coord1[0]) * p)/2 + 
-						c(coord1[0] * p) * c(coord2[0] * p) * 
-						(1 - c((coord2[1] - coord1[1]) * p))/2
+				var a = 0.5 - c((coord2[0] - coord1[0]) * p) / 2 +
+					c(coord1[0] * p) * c(coord2[0] * p) *
+					(1 - c((coord2[1] - coord1[1]) * p)) / 2
 				return Math.asin(Math.sqrt(a))
 			}
 			const sortedByDistance = results.sort((coord1, coord2) => {
