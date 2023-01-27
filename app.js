@@ -48,17 +48,7 @@ app.get('/size', (req, res) => {
 })
 
 app.get('/times', (req, res) => {
-	connection.query(`SELECT UNIQUE time_start FROM weather ORDER BY time_start;`, (error, results) => {
-		if (error) {
-			res.status(500).send(error)
-		} else {
-			res.send(results)
-		}
-	})
-})
-
-app.get('/latest', (req, res) => {
-	connection.query(`SELECT UNIQUE time_start FROM weather ORDER BY time_start DESC LIMIT 1;`, (error, results) => {
+	connection.query(`SELECT MIN(time_start) AS lowest, MAX(time_start) AS highest FROM weather;`, (error, results) => {
 		if (error) {
 			res.status(500).send(error)
 		} else {
