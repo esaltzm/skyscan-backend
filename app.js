@@ -57,6 +57,18 @@ app.get('/times', (req, res) => {
 	})
 })
 
+app.get('/minmax/:time/:param', (req, res) => {
+	const time = req.params.time
+	const param = req.params.param
+	connection.query(`SELECT MIN(${param}) AS min, MAX(${param}) AS max FROM weather WHERE time_start = ${time}`, (error, results) => {
+		if (error) {
+			res.status(500).send(error)
+		} else {
+			res.send(results)
+		}
+	})
+})
+
 app.get('/weather/:param/:time/:coords', (req, res) => {
 	const param = req.params.param
 	const time = req.params.time
@@ -115,6 +127,8 @@ app.get('/photocast/:time/:lat/:long', (req, res) => {
 		}
 	})
 })
+
+
 
 const port = process.env.PORT || 8080
 
