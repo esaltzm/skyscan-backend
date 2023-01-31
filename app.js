@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
 	host: process.env.HOST,
 	user: 'admin',
 	password: process.env.PASSWORD,
-	database: 'weather_db'
+	database: 'weather'
 })
 
 app.get('/', (req, res) => {
