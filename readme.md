@@ -33,7 +33,7 @@ This was the SQL query called by the front end through the weather route:
 ## Problems and Solutions
 
 ### Changing Project Scope
-I had initially planned for the backend of my project by Python based, using the Django framework, but as my goals shifted from a photo sharing app with users and other models to a singular weather database, it made more sense to implement the backend using Node/Express.
+I had initially planned for the backend of my project to be Python based, using the Django framework, but as my goals shifted from a photo sharing app with users and other models to a singular weather database, it made more sense to implement the backend using Node/Express.
 
 ### Removing Request Body
 While working on the frontend, I realized that Axios was unable to submit a body with a get request as I had tested using Postman, so to fix this issue, I switched the information previously contained in the body (the SW and NE coordinates of the area of interest) to the params. On the frontend, this two dimensional array was first stringified to JSON format, then on the backend was parsed back to its array format to be passed into the SQL query. 
